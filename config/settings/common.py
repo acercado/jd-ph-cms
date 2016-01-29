@@ -45,6 +45,10 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'jd-ph-cms.users',  # custom users app
     # Your stuff: custom apps go here
+    'cloudinary',
+    'jd-ph-cms.myuser',
+    'jd-ph-cms.contests',
+    'jd-ph-cms.accounts',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
