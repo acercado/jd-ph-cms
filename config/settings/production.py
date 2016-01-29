@@ -19,7 +19,7 @@ from __future__ import absolute_import, unicode_literals
 # from django.utils import six
 
 # import logging
-import urlparse
+
 
 from .common import *  # noqa
 
@@ -156,11 +156,11 @@ DATABASES['default'] = env.db("DATABASE_URL")
 #     }
 # }
 
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+redis_url = env('REDIS_URL')
 CACHES = {
     "default": {
          "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+         "LOCATION": "{0}:{1}".format(redis_url, redis_url.port),
          "OPTIONS": {
              "PASSWORD": redis_url.password,
              "DB": 0,
