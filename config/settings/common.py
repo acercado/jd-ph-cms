@@ -49,6 +49,10 @@ LOCAL_APPS = (
     'jd-ph-cms.myuser',
     'jd-ph-cms.contests',
     'jd-ph-cms.accounts',
+    'jd-ph-cms.notifications',
+    'jd-ph-cms.policies',
+    'jd-ph-cms.rewards',
+    'jd-ph-cms.productofferings',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -212,7 +216,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_ADAPTER = 'jd-ph-cms.users.adapter.AccountAdapter'
@@ -240,3 +244,21 @@ BROKER_URL = env("CELERY_BROKER_URL", default='django://')
 ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
+POLICY_ADMIN_EMAIL = "heroku@risingtide.ph"
+POLICY_COUNTRY = (
+        ('indonesia', 'Indonesia'),
+        ('malaysia', 'Malaysia'),
+        ('philippines', 'Philippines'),
+        ('singapore', 'Singapore'),
+    )
+PERKS_AND_PRIZES_REWARD_TYPE_CHOICES = (
+        ('perks|prize', 'Perks & Prize'),
+        ('perks', 'Perks'),
+        ('prize', 'Prizes'),
+    )
+PRODUCT_OFFERINGS_VOLUME_TYPES = (
+        ('700ml', '700mL'),
+        ('750ml', '750mL'),
+        ('1000ml', '1000mL'),
+        ('2000ml', '2000mL'),
+    )

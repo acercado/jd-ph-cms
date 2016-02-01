@@ -1,0 +1,1001 @@
+ {% load staticfiles %}
+
+	<!-- Modals =============================================================================================================================-->
+
+	<!-- Forgot password modal -->
+	<div class="modal fade" id="modal-forgot" tabindex="-1" role="dialog" aria-labelledby="modalForgotLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <form>
+		    <div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <h4 class="modal-title" id="modalForgotLabel">Forgot Password</h4>
+		    </div>
+		    <div class="modal-body">
+		  	  <p>Enter your e-mail address and we will send a link to change your password.</p>
+			  <div class="form-group has-feedback">
+			    <input type="email" class="form-control" id="forgot-email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			  </div>
+		    </div>
+		    <div class="modal-footer">
+			  <button type="button" class="btn btn-primary">SEND</button>
+		    </div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+
+	<!-- Confirm delete modal -->
+	<div class="modal fade" id="modal_del" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <form>
+		    <div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <h4 class="modal-title" id="modalConfirmDelete">Confirm Delete</h4>
+		    </div>
+		    <div class="modal-body">
+		  	  <p>Are you sure you want to delete this item?</p>
+		  	  <p><span class="modal_delete_text"></span></p>
+		  	  <input type="hidden" name="" value="" id="modal_delete_val">
+		    </div>
+		    <div class="modal-footer">
+			  <button type="button" class="btn btn-primary" data-dismiss="modal">YES</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+		    </div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+
+	<!-- Modal -->
+	  <div class="modal fade" id="modal_deleted">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title">Deleted</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>Account has been deleted.</p>
+	          <p><span class="modal_delete_text"></span></p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-primary" id="" data-dismiss="modal">Okay</button>
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	  </div><!-- /.modal -->
+
+	<!-- Success modal -->
+	<div class="modal fade" id="modal-success" tabindex="-1" role="dialog" aria-labelledby="modalSuccess">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <form>
+		    <div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <h4 class="modal-title" id="modalSuccess">Successful</h4>
+		    </div>
+		    <div class="modal-body">
+		  	  <p>Successful stuff here...</p>
+		    </div>
+		    <div class="modal-footer">
+			  <button type="button" class="btn btn-primary" id="modal-success-redirect" data-dismiss="modal">OK</button>
+		    </div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+
+  <!-- Prize modal -->
+  <div class="modal fade" id="modal-prize" tabindex="-1" role="dialog" aria-labelledby="modalPrize" data-backdrop="static">
+    <input type="hidden" name="modal_winner_choosing_prize_webtrans_id" id="modal_winner_choosing_prize_webtrans_id" value="">
+    <input type="hidden" name="modal_winner_choosing_prize_id" id="modal_winner_choosing_prize_id" value="">
+    <input type="hidden" name="modal_winner_choosing_prize_contest_id" id="modal_winner_choosing_prize_contest_id" value="">
+    <input type="hidden" name="modal_winner_choosing_prize_rewards" id="modal_winner_choosing_prize_rewards" value="">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="POST">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalPrize">Choose a Prize</h4>
+        </div>
+        <div class="modal-body">
+          <p>Set the prize for this winner:</p>
+        <div class="form-group">
+          <div id="selection">
+            <div class="row">
+            {% for reward in rewards %}
+              <div class="col-sm-4">
+                <div id="reward-image-view" style="background-image: url({{reward.image_url|default_if_none:''}});" class="thumb-promo img-thumbnail"></div>
+                <br>
+                <input type="checkbox" name="rewards" class="rewards" value="{{reward.id}}"> <small>{{reward.name}}</small><br>
+              </div>
+            {% endfor %}
+            </div>
+
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-set-prize">SET</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+
+  <!-- Edit Contest Answer modal -->
+  <div class="modal fade" id="modal-edit-answer" tabindex="-1" role="dialog" aria-labelledby="modalSuccess">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalSuccess">Edit Contest Question</h4>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="answer-id" value=""/>
+          <p><input type="text" class="form-control" id="contest_edit_question" name="contest_edit_question" data-answer-id="" /></p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" id="update-question-item" data-question-id="" class="btn btn-primary pull-left" data-dismiss="modal">Save Changes</button>
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+
+
+    <!-- REQUIRED JS SCRIPTS -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="{% static "plugins/jQuery/jQuery-2.1.4.min.js" %}"></script>
+    {# if request.path|slice:":29" == '/cms/rewards/loyaltycodes/new' #}<!-- jQuery UI - v1.11.4 - 2015-12-06 -->
+    <script src="{% static "plugins/jqueryui/jquery-ui.min.js" %}"></script>{# endif #}
+    <script type="text/javascript" src="{% static "JSZip-2.5.0/jszip.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "pdfmake-0.1.18/build/pdfmake.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "pdfmake-0.1.18/build/vfs_fonts.js" %}"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <!-- DataTables -->
+    <script type="text/javascript" src="{% static "DataTables-1.10.10/js/jquery.dataTables.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "DataTables-1.10.10/js/dataTables.bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Buttons-1.1.0/js/dataTables.buttons.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Buttons-1.1.0/js/buttons.bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Buttons-1.1.0/js/buttons.flash.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Buttons-1.1.0/js/buttons.html5.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Buttons-1.1.0/js/buttons.print.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Responsive-2.0.0/js/dataTables.responsive.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "Responsive-2.0.0/js/responsive.bootstrap.min.js" %}"></script>
+    <!-- iCheck -->
+    <script src="{% static "plugins/iCheck/icheck.min.js" %}"></script>
+    <!-- SlimScroll -->
+    <script src="{% static "plugins/slimScroll/jquery.slimscroll.min.js" %}"></script>
+    <!-- FastClick -->
+    <script src="{% static "plugins/fastclick/fastclick.min.js" %}"></script>
+    <!-- date-range-picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="{% static "plugins/daterangepicker/daterangepicker.js" %}"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="{% static "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" %}"></script>
+    <!-- bootstrap time picker -->
+    <script src="{% static "plugins/timepicker/bootstrap-timepicker.min.js" %}"></script>
+    <!-- App -->
+    <script src="{% static "js/app.js" %}"></script>
+    
+    {% if request.path|slice:":13" == '/cms/policies' %}<!-- Select2 -->
+    <script src="{% static 'plugins/select2/select2.full.min.js' %}"></script>{% endif %}
+
+    {% load cloudinary %}
+    {% cloudinary_includes %}
+    {% cloudinary_js_config %}
+
+    <!-- Custom scripts -->
+    <script src="{% static "js/scripts.js" %}"></script>
+
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. Slimscroll is required when using the
+         fixed layout. -->
+
+    {% if request.path|slice:":14" == '/cms/news/edit' %}
+    <script src="{% static "js/date.js" %}"></script>
+    {% endif %}
+
+    {# if request.path|slice:":9" == '/location'#}
+		<script type="text/javascript">
+      		$(function () {
+      			// some preparation for crf token used by forms
+      			function getCookie(name) {
+      			    var cookieValue = null;
+      			    if (document.cookie && document.cookie != '') {
+      			        var cookies = document.cookie.split(';');
+      			        for (var i = 0; i < cookies.length; i++) {
+      			            var cookie = jQuery.trim(cookies[i]);
+      			            // Does this cookie string begin with the name we want?
+      			            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+      			                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+      			                break;
+      			            }
+      			        }
+      			    }
+      			    return cookieValue;
+      			}
+      			var csrftoken = getCookie('csrftoken');
+      			function csrfSafeMethod(method) {
+      			    // these HTTP methods do not require CSRF protection
+      			    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      			}
+      			$.ajaxSetup({
+      			    beforeSend: function(xhr, settings) {
+      			        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      			        }
+      			    }
+      			});
+      			var table1 = $('#DataTables_Table_0').DataTable();
+      			var rowToDelete;
+      			$('#DataTables_Table_0 tbody').on( 'click', 'a#btn_del', function () {
+      			    rowToDelete = table1.row( $(this).parents('tr') );
+      			    var rowNode = rowToDelete.node();
+      			    console.log(rowNode);
+      			    // row.remove();
+
+      			    // table2
+      			    //     .row.add( rowNode )
+      			    //     .draw();
+      			} );
+
+            var is_type;
+            var acct_name;
+            var acct_id;
+            $('.data-tables').on('click','a#btn_del', function() {
+              acct_name = $(this).data('acct-name');
+              acct_id = $(this).data('acct-id');
+              if ($('a.btn-featured').length > 0) {
+                // the button exists, exclusive to 'featured items' page
+                is_type = $(this).data('is-type').toLowerCase();
+              }
+            {% if request.path|slice:":13" == '/cms/featured' %}
+              $('#modal_del div.modal-body p').first().text('Remove from featured list?');
+              // $('#modal_del div.modal-body').append('<p>'+acct_name+'</p>');
+
+              $('#filter-duration').on('apply.daterangepicker', function(ev, picker) {
+                console.log('Startdate: ' + picker.startDate.format('YYYY-MM-DD'));
+                console.log('Enddate: ' + picker.endDate.format('YYYY-MM-DD'));
+                $('#datetime-start').val(picker.startDate.format('YYYY-MM-DD H:M'))
+              });
+              is_type = $(this).data('is-type').toLowerCase();
+            {% endif %}
+      			  $(".modal_delete_text").text(acct_name);
+      			  $("#modal_delete_val").val(acct_id);
+              console.log('ID: ' + acct_id);
+      			});
+
+      			// clicked OK button on delete modal
+      			$('div#modal_del button.btn-primary').on('click',function() {
+      				{% if request.path|slice:":22" == '/cms/location/accounts' %}
+	      				$.post('/cms/accounts/delete/' + $("#modal_delete_val").val())
+	      					.done(function() {
+	      					  rowToDelete.remove();
+	      					  table1.draw();
+	      					  $('#modal_deleted').modal('show');
+	      					});
+	      			{% elif request.path|slice:":19" == '/cms/whiskey-family' %}
+	      				$.post('/cms/whiskey-family/delete/' + $("#modal_delete_val").val())
+	      					.done(function() {
+	      					  rowToDelete.remove();
+	      					  table1.draw();
+	      					  $('#modal_deleted').modal('show');
+	      					});
+	      			{% elif request.path|slice:":18" == '/cms/rewards/setup' %}
+	      				$.post('/cms/rewards/setup/delete/' + $("#modal_delete_val").val())
+	      					.done(function() {
+	      					  rowToDelete.remove();
+	      					  table1.draw();
+	      					  $('#modal_deleted').modal('show');
+	      					});
+              {% elif request.path|slice:":25" == '/cms/rewards/loyaltycodes' %}
+	      				$.post('/cms/rewards/loyaltycodes/delete/' + $("#modal_delete_val").val())
+	      					.done(function() {
+	      					  rowToDelete.remove();
+	      					  table1.draw();
+	      					  $('#modal_deleted').modal('show');
+	      					});
+              {% elif request.path|slice:":19" == '/cms/contests/setup' %}
+                $.post('/cms/contests/setup/delete/' + $("#modal_delete_val").val())
+                  .done(function() {
+                    rowToDelete.remove();
+                    table1.draw();
+                    $('#modal_deleted').modal('show');
+                  });
+              {% elif request.path|slice:":19" == '/cms/accounts/edit/' %}
+                var prod_offer_to_delete = $("#modal_delete_val").val();
+                $.post('/cms/accounts/product_offers/delete/' + $("#modal_delete_val").val())
+                  .done(function() {
+                    $('.form-group.prod-offers.'+prod_offer_to_delete).fadeOut();
+                    $('#modal_deleted').modal('show');
+                  });
+              {% elif request.path|slice:":9" == '/cms/news' %}
+                $.post('/cms/news/delete/' + $("#modal_delete_val").val())
+                  .done(function() {
+                    rowToDelete.remove();
+                    table1.draw();
+                    $('#modal_deleted').modal('show');
+                  });
+              {% elif request.path|slice:":10" == '/cms/users' %}
+                $.post('/cms/users/delete/' + $("#modal_delete_val").val())
+                  .done(function() {
+                    rowToDelete.remove();
+                    table1.draw();
+                    $('#modal_deleted').modal('show');
+                  });
+              {% elif request.path|slice:":13" == '/cms/featured' %}
+                if(is_type=='') is_type = 'account';
+                $.post('/cms/featured/remove/' + $("#modal_delete_val").val() + '/' + is_type)
+                  .done(function() {
+                    rowToDelete.remove();
+                    table1.draw();
+                    $('#modal_deleted').modal('show');
+                  });
+					    {% endif %}
+      			});
+
+      			{% if mode == 'saved' %}
+      			  	$('#modal-success div.modal-body').text('Saved.');
+      			    $('#modal-success').modal('show');
+      			{% elif mode == 'edited' %}
+      				$('#modal-success div.modal-body').text('Record updated.');
+      			    $('#modal-success').modal('show');
+      			{% endif %}
+
+            {% if request.path|slice:":23" == '/cms/rewards/setup/edit' %}
+                if($('#id_reward_type').val()=='prize') {
+                  $('#id_value').val(0);
+                }
+            {% endif %}
+
+            {% if errors != '' and request.path|slice:":30" == '/cms/perksnprizes/loyaltycodes' %}
+              $('#modal-success h4.modal-title').text("Error(s)");
+              $('#modal-success div.modal-body').text('{{errors}}');
+              $('#modal-success').modal('show');
+            {% endif %}
+      		});
+      	</script>
+    {# endif #}
+
+    {% if request.path|slice:":18" == '/cms/accounts/edit'%}
+      <!-- Bootstrap WYSIHTML5 -->
+      <script src="{% static "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" %}"></script>
+    {% endif %}
+    {% if request.path|slice:":25" == '/cms/rewards/loyaltycodes' %}
+      <script src="{% static "plugins/input-mask/jquery.inputmask.js" %}"></script>
+      <script src="{% static "plugins/input-mask/jquery.inputmask.extensions.js" %}"></script>
+    {% endif %}
+
+    {% if request.path|slice:":18" == '/cms/accounts/edit'%}
+    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM2BLX6_LCK8zpZxUZtw_rdFTOkvjxJH4&libraries=places&callback=initAutocomplete"
+         async defer></script>
+    	<script type="text/javascript">
+          // var e = jQuery.Event("keydown");
+          // e.which = 50; // # Some key code value
+          // $("#id_address").val("Tides Grill & Bistro").trigger(e);
+
+          function initAutocomplete() {
+
+            if (navigator.geolocation) {
+
+            } else {
+              console.log('The browser doesn\'t support the Geolocation API');
+            }
+
+            navigator.geolocation.getCurrentPosition(feedPosition, errorPosition);
+
+            function errorPosition() {
+                alert('Sorry couldn\'t find your location');
+                pretext.show();
+            }
+
+            function feedPosition(position) {
+
+              console.log("Detected position (lat): " + position['coords']['latitude'])
+              console.log("Detected position (long): " + position['coords']['longitude'])
+              latitude = position.coords.latitude;
+              longitude  = position.coords.longitude;
+
+              x_lat = $('#id_geolocation_latitude_s').val();
+              x_long = $('#id_geolocation_longitude_s').val();
+              x_addr = $('#account_address').val();
+
+              console.log('DB Lat val: ' + x_lat);
+              console.log('DB Long val: ' + x_long);
+              console.log('LatLng lenght: ' + x_lat.length);
+
+
+              // latitude = x_lat;
+              // longitude  = x_long;
+
+              // map = new google.maps.Map(document.getElementById('map'), {
+              //     center: {lat: x_lat, lng: x_long},
+              //     zoom: 16
+              // });
+
+              // return;
+
+              var myLatLng = {lat: x_lat, lng: x_long};
+              var map;
+              if(x_lat.length===0 || parseInt(x_lat)===0) {
+        				console.log("Considering auto-geoloc..");
+        				x_lat = position.coords.latitude;
+        				x_long = position.coords.longitude;
+        				var latlng = new google.maps.LatLng(latitude, longitude);
+        				var myOptions = {
+        					zoom: 16,
+        					center: latlng,
+        					mapTypeId: google.maps.MapTypeId.ROADMAP
+        				};
+				        map = new google.maps.Map(document.getElementById('map'), myOptions);
+              } else {
+              	  var myLatLng = new google.maps.LatLng(x_lat, x_long);
+	              map = new google.maps.Map(document.getElementById('map'), {
+	                zoom: 16,
+	                center: myLatLng,
+	                mapTypeId: google.maps.MapTypeId.ROADMAP
+	              });
+
+	              var marker = new google.maps.Marker({
+	                position: myLatLng,
+	                map: map,
+	                title: x_addr
+	              });
+              }
+
+
+
+              // return;
+
+
+
+              // var map = new google.maps.Map(document.getElementById('map'), {
+              //   center: {lat: -33.8688, lng: 151.2195},
+              //   zoom: 13,
+              //   mapTypeId: google.maps.MapTypeId.ROADMAP
+              // });
+
+
+              // x_center = map.getCenter();
+              // console.log("Map: " + x_center.lat());
+              // Create the search box and link it to the UI element.
+              var input = document.getElementById('account_address');
+              var searchBox = new google.maps.places.SearchBox(input);
+              // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+              // Bias the SearchBox results towards current map's viewport.
+              map.addListener('bounds_changed', function() {
+                searchBox.setBounds(map.getBounds());
+              });
+              var markers = [];
+              // [START region_getplaces]
+              // Listen for the event fired when the user selects a prediction and retrieve
+              // more details for that place.
+              searchBox.addListener('places_changed', function() {
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                  return;
+                }
+
+                // Clear out the old markers.
+                markers.forEach(function(marker) {
+                  marker.setMap(null);
+                });
+                markers = [];
+
+                // For each place, get the icon, name and location.
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                  var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                  };
+                  console.log("Search Lat: " + place.geometry.location.lat());
+                  console.log("Search Long: " + place.geometry.location.lng());
+                  var_lat = place.geometry.location.lat();
+                  var_long = place.geometry.location.lng();
+                  $('#id_map_lat').val(var_lat.toFixed(8));
+                  $('#id_map_long').val(var_long.toFixed(8));
+                  // Create a marker for each place.
+                  markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                  }));
+
+                  if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                  } else {
+                    bounds.extend(place.geometry.location);
+                  }
+                });
+                map.fitBounds(bounds);
+              });
+              // [END region_getplaces]
+            }
+
+          }
+          var acct_name = $('#account_name').val();
+          var acct_b_street = $('#account_billingstreet').val();
+          var acct_b_city = $('#account_billingcity').val();
+          var acct_b_state = $('#account_billingstate').val();
+          var acct_b_country = $('#account_billingcountry').val();
+          var acct_address = acct_b_street + ', ' + acct_b_city + ', ' + acct_b_state + ', ' + acct_b_country;
+          console.log('Account name: ' + acct_name);
+          $("#account_address").val(acct_address);
+          notif_message = $('#notif_message').val()
+          if(notif_message!='') {
+            $('#id_make_notif').iCheck('check');
+          } else {
+            $('#id_make_notif').iCheck('uncheck');
+          }
+      </script>
+    {% endif %}
+
+    {% if request.path|slice:":30" == '/perksnprizesrewards/loyaltycodes/new' or request.path|slice:":30" == '/cms/rewards/loyaltycodes/edit'%}
+		<script type="text/javascript">
+			//Single Date picker
+  //     console.log('Single Date picker');
+		// 	$('.duration-dates').daterangepicker({
+		// 	    singleDatePicker: true,
+		// 	    showDropdowns: true
+		// 	});
+      $('#id_status').on('change', function(event) {
+        var status = $(this).val();
+        var id = $('#id').val();
+        
+        console.log('Status is changed: ' + status);
+        
+        if( status == 'archived' ) {
+          $.post('/cms/rewards/setup/check_status/' + id + '/' + $(this).val(), function(data){
+            var json = JSON.parse(data);
+            console.log('msg: '+json['msg']);
+            if(json['msg'] != 'none') {
+              $(this).focus();
+              $(this).select();
+              $('#modal-success h4.modal-title').text('Loyalty Codes');
+              $('#modal-success div.modal-body').text('Please do note, this loyaltycode hasn\'t expired yet.');
+              $('#modal-success').modal('show');
+              $('#notify_status').text('Note: Archiving a non-expired Loyalty Code.');
+            } 
+          });
+          
+        } else {
+              $('#notify_status').text('');
+            }
+      });
+	  </script>
+    {% endif %}
+
+    {% if request.path == '/cms/testoutnew/' %}
+      <script type="text/javascript">
+
+          $('#examplexxx').DataTable({
+            "ajax": '/cms/testoutold',
+            "columns": [
+                { "data": "id" },
+                { "data": "name" },
+                { "data": "createddate" },
+                { "data": "address" }
+            ],
+            "dom": '<"toolbar">frtip',
+          });
+      </script>
+    {% endif %}
+
+
+    {% if request.path|slice:":25" == '/cms/rewards/loyaltycodes' %}
+      <script type="text/javascript">
+        $('#id_code').on('keyup', function(e) {
+          if (e.which <= 90 && e.which >= 48) {
+            var q = $(this).val();
+            $('#code_in_use').fadeOut()
+            if(q.length>6) {
+              // $.post('/cms/loyaltycode/check/',{ code: q }, function(data){
+              $.post('/cms/loyaltycode/check/' + q, function(data){
+                var json = JSON.parse(data);
+                console.log('msg: '+json['msg']);
+                if(json['msg'] != 'None') {
+                  $(this).focus();
+                  $(this).select();
+                  $('#modal-success h4.modal-title').text('Loyalty Codes');
+                  $('#modal-success div.modal-body').text('Code \"'+q+'\" already in use.');
+                  mode = '';
+                  $('#modal-success').modal('show');
+                }
+              });
+            }
+          }
+        });
+      </script>
+    {% endif %}
+
+{% if request.path|slice:":21" == '/cms/contests/players' %}
+  <script type="text/javascript">
+    // $('div#modal-prize div.selection').html()
+
+    // $('#form_contest_players').on('submit', function(event){
+    //     event.preventDefault();
+    //     console.log("form submitted! ")  // sanity check
+    //     // create_post();
+    // });
+
+    // $('#btn_contest_players_filter').on('click', function() {
+    //   console.log('Clicked: #btn_contest_players_filter');
+    //   var table = $('#tbl_contest_players').DataTable();
+    //   table.destroy();
+    //   table = $('#tbl_contest_players').DataTable({
+    //     "ajax": '/cms/contest_players_json',
+    //     "columns": [
+    //         { "data": "score" },
+    //         { "data": "name" },
+    //         { "data": "contest" },
+    //         { "data": "action" }
+    //     ],
+    //     "dom": '<"toolbar">rtip',
+    //   });
+    // });
+
+    $('#filter-duration').on('apply.daterangepicker', function(ev, picker) {
+      $('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'));
+      $('#filter-start-time').val(picker.startDate.format('HH:mm:ss'));
+      $('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'));
+      $('#filter-end-time').val(picker.endDate.format('HH:mm:ss'));
+    });
+
+    $('#filter-duration').on('cancel.daterangepicker', function(ev, picker) {
+      $('#filter-duration').val('');
+      $('#filter-start-date').val('');
+      $('#filter-start-time').val('');
+      $('#filter-end-date').val('');
+      $('#filter-end-time').val('');
+    });
+
+    $('#filter-duration').on('change', function() {
+      var content = $(this).val();
+      if (content.length == 0) {
+        $('#filter-start-date').val('');
+        $('#filter-start-time').val('');
+        $('#filter-end-date').val('');
+        $('#filter-end-time').val('');
+      }
+    });
+
+    var this_obj
+
+    $('table.data-tables').on('click', 'button.btn-choose-prize' , function() {
+      this_obj = $(this);
+      var id = this_obj.data('acct-id');
+      var webtrans_id = this_obj.data('webtrans-id');
+      var contest_id = this_obj.data('contest-id');
+      console.log('ID: ' + id);
+      console.log('Contest ID: ' + contest_id)
+      $('#modal_winner_choosing_prize_id').val(id);
+      $('#modal_winner_choosing_prize_webtrans_id').val(webtrans_id);
+      $('#modal_winner_choosing_prize_contest_id').val(contest_id);
+      $.each( $('.rewards'), function() {
+        $(this).attr('checked', false);
+        $(this).parent().attr('aria-checked', false);
+        $(this).parent().prop('aria-checked', false);
+        $(this).parent().removeClass('checked');
+        // console.log('Parent: ' + $(this).parent().attr('aria-checked'));
+      });
+      $('#modal-prize').modal('show');
+      $
+    });
+
+    $('div#modal-prize').on('click', 'button#btn-set-prize', function() {
+      webtrans_id = $('#modal_winner_choosing_prize_webtrans_id').val();
+      id =$('#modal_winner_choosing_prize_id').val();
+      contest_id = $('#modal_winner_choosing_prize_contest_id').val();
+      prize = $('#list-prize').val();
+      rewards = [];
+      $.each( $('.rewards'), function() {
+        if ($(this).is(':checked')) {
+          console.log('Checked: ' + $(this).val() )
+          rewards.push($(this).val());
+        }
+        // console.log($(this).val());
+      });
+      rewards = rewards.toString()
+      rewards = $.trim(rewards);
+      if(rewards=='') {
+        console.log('No prize selected.');
+        return
+      }
+      console.log('Rewards: ' + rewards);
+      $('#modal_winner_choosing_prize_rewards').val(rewards);
+
+      console.log('Rewards: ' + $('#modal_winner_choosing_prize_rewards').val() );
+ 
+      $.post('/cms/contests/choose_prize/' + webtrans_id + '/' + id + '/' + contest_id, {prize: rewards }, function(data){
+        var json = JSON.parse(data);
+        console.log('user id: ' + json['id']);
+        console.log('prize id: ' + json['prize']);
+        this_obj.attr('disabled','disabled');
+        this_obj.text('WINNER');
+        $('#modal-prize').modal('hide');
+      });
+    });
+
+  </script>
+{% endif %}
+
+{% if request.path|slice:":19" == '/cms/contests/setup' %}
+      <script type="text/javascript">
+        var sitePersonel = {};
+        var employees = []
+        var i = 0;
+        $('#btn_add_answer').on('click', function(event) {
+          event.preventDefault();
+          console.log('Clicked: #btn_add_answer');
+          if ($('#answer-item').val()=='') return;
+          some_element = '<div id="question_elements" class="col-md-12 no-padding">\
+                                  <div class="col-md-2 text-center"><input type="radio" class="" name="correct-answer" value="'+$('#answer-item').val()+'"></div>\
+                                  <div class="col-md-10 form-group form-inline">\
+                                    <input class="form-control json" type="text" name="json_contest_answer" value="'+$('#answer-item').val()+'" disabled="" data-answer-id="'+i+'">\
+                                    <button href="#" id="edit-item" data-answer-id="'+i+'" data-answer-text="'+$('#answer-item').val()+'" class="btn btn-success btn-sm btn-edit-answer">Edit</button>\
+                                    <a class="btn btn-danger btn-sm delete-item">Delete</a>\
+                                  </div>\
+                                </div>'
+          i = i + 1;
+          $('#answer_box').append(some_element);
+          $('input').iCheck({radioClass: 'iradio_flat'});
+          $('#answer-item').val('');
+
+           $('.delete-item').on('click', function(event) {
+             event.preventDefault();
+             console.log($(this).parent().parent().fadeOut('fast').remove())
+           });
+
+           $('.btn-edit-answer').on('click', function(event) {
+             console.log('Answer ID: ' + answer_id);
+             event.preventDefault();
+             var answer_id = $(this).data('answer-id');
+             var answer_text = $(this).data('answer-text');
+             $('#modal-edit-answer input#contest_edit_question').attr('data-answer-id',answer_id);
+             $('#modal-edit-answer input#contest_edit_question').val(answer_text);
+             $('#modal-edit-answer input#answer-id').val(answer_id);
+             $('#modal-edit-answer').modal('show');
+           });
+        });
+
+       $('.delete-item').on('click', function(event) {
+         event.preventDefault();
+         console.log($(this).parent().parent().fadeOut('fast').remove())
+       });
+
+        // TODOS: 2016-01-05
+        $('#btn_save_question'). on('click', function() {
+          console.log('Clicked: #btn_save_question');
+          var answers = {};
+          var list = [];
+          answers.list = list;
+          $.each( $('.json'), function() {
+            // console.log($(this).parent().prev().children().attr('aria-checked'));
+            console.log($(this).parent().prev().children().children().attr('checked'));
+            this_name = $(this).attr('name')
+            this_value = $(this).val()
+            // this_is_correct = $(this).parent().prev().children().attr('aria-checked')
+            this_is_correct = $(this).parent().prev().children().children().is(':checked');
+            console.log(this_name + ' : ' + this_value + ' = ' + this_is_correct);
+            // if(this_name=='json_contest_answer') {
+            var answer = {};
+              answer.text = this_value
+              answer.is_correct = this_is_correct
+              answers.list.push(answer)
+            // }
+          });
+          console.log(JSON.stringify(answers));
+          $('#json_obj').val(JSON.stringify(answers))
+          $form = $(this).parent("form");
+          // $.post("/cms/ajax_add_questions", function(json) {
+          //     console.log(json);
+          //     console.log('Resume form posting...');
+          // });
+
+          // $.ajax({
+          //     url : "/cms/ajax_add_questions", // the endpoint
+          //     type : "POST", // http method
+          //     data : {
+          //       contest_id : $('#contest_id').val(),
+          //       id_title: $('#id_title').val(),
+          //       id_points: $('#id_points').val(),
+          //       id_answer_text: $('#id_answer_text').val()
+          //     },
+          //     // handle a successful response
+          //     success : function(json) {
+          //       console.log('success...');
+          //       console.log(json); // log the returned json to the console
+          //     },
+
+          //     // handle a non-successful response
+          //     error : function(xhr,errmsg,err) {
+          //         console.log('fail...');
+          //         console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+          //     }
+          // });
+        });
+
+        $('.btn-edit-answer').on('click', function(event) {
+          console.log('Answer ID: ' + answer_id);
+          event.preventDefault();
+          var answer_id = $(this).data('answer-id');
+          var answer_text = $(this).data('answer-text');
+          console.log('Answer ID from btn edit answer: ' + answer_id);
+          $('#modal-edit-answer input#contest_edit_question').attr('data-answer-id',answer_id);
+          $('#modal-edit-answer input#contest_edit_question').val(answer_text);
+          $('#modal-edit-answer input#answer-id').val(answer_id);
+          $('#modal-edit-answer').modal('show');
+        });
+{% if request.path|slice:":24" == '/cms/contests/setup/edit' %}
+        $('#update-question-item').on('click', function() {
+          var answer_text = $('#modal-edit-answer #contest_edit_question').val();
+          var answer_id = $('#modal-edit-answer input#answer-id').val();
+          var is_answer = $('div#answer_box').find('input[data-answer-id=71]').parent().parent().find('input[type=radio]:checked');
+          if( is_answer=='checked' ) {
+            is_answer = 'True';
+          } else {
+            is_answer = 'False';
+          }
+          console.log('Is answer: ' + is_answer);
+          console.log('answer-id: ' + answer_id);
+          $.post('/cms/contest/update_answer',{ answer_text: answer_text, answer_id: answer_id, is_answer: is_answer }, function(data){
+            if(data!='None') {
+              console.log('msg: ' + data.msg);
+              $('div#answer_box').find('input[data-answer-id='+answer_id+']').val(answer_text);
+            }
+          });
+        });
+{% elif request.path|slice:":23" == '/cms/contests/setup/new' %}
+        $('#update-question-item').on('click', function() {
+          var answer_text = $('#modal-edit-answer #contest_edit_question').val();
+          var answer_id = $('#modal-edit-answer input#answer-id').val();
+          var is_answer = $('div#answer_box').find('input[data-answer-id=71]').parent().parent().find('input[type=radio]:checked');
+          if( is_answer=='checked' ) {
+            is_answer = 'True';
+          } else {
+            is_answer = 'False';
+          }
+          console.log('Is answer: ' + is_answer);
+          console.log('answer-id: ' + answer_id);
+
+          $('div#answer_box').find('input[data-answer-id='+answer_id+']').val(answer_text);
+
+        });
+{% endif %}
+      </script>
+
+{% endif %}
+
+<script type="text/javascript">
+{# miscellaneous addon scripts #}
+{% if request.path|slice:":18" == '/cms/contests/logs' %}
+  $('.buttons-csv').addClass('btn btn-primary');
+{% endif %}
+{% if request.path|slice:":18" != '/cms/contests/logs' or request.path|slice:":21" != '/cms/contests/players' %}
+  $('.dt-buttons').hide();
+{% endif %}
+{% if request.path|slice:":13" == '/cms/policies' %}
+  $(".select2").select2();
+{% endif %}
+{% if request.path|slice:":18" == '/cms/contests/logs' %}
+    $('#filter-duration').on('apply.daterangepicker', function(ev, picker) {
+      $('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'));
+      $('#filter-start-time').val(picker.startDate.format('HH:mm:ss'));
+      $('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'));
+      $('#filter-end-time').val(picker.endDate.format('HH:mm:ss'));
+    });
+
+    $('#filter-duration').on('cancel.daterangepicker', function(ev, picker) {
+      $('#filter-duration').val('');
+      $('#filter-start-date').val('');
+      $('#filter-start-time').val('');
+      $('#filter-end-date').val('');
+      $('#filter-end-time').val('');
+    });
+
+    $('#filter-duration').on('change', function() {
+      var content = $(this).val();
+      if (content.length == 0) {
+        $('#filter-start-date').val('');
+        $('#filter-start-time').val('');
+        $('#filter-end-date').val('');
+        $('#filter-end-time').val('');
+      }
+    });
+{% endif %}
+{% if request.path|slice:":25" == '/cms/rewards/loyaltycodes' %}
+    $('#id_code').inputmask("aa99999");
+{% endif %}
+{% if request.path|slice:":13" == '/cms/news/new' or request.path|slice:":14" == '/cms/news/edit'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/news";
+    });
+{% endif %}
+{% if request.path|slice:":18" == '/cms/accounts/edit'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/accounts/";
+    });
+{% endif %}
+{% if request.path|slice:":19" == '/cms/contests/setup'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/contests/setup";
+    });
+{% endif %}
+{% if request.path|slice:":10" == '/cms/users'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/users";
+    });
+{% endif %}
+{% if request.path|slice:":18" == '/cms/rewards/setup'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/rewards/setup";
+    });
+{% endif %}
+{% if request.path|slice:":25" == '/cms/rewards/loyaltycodes'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/rewards/loyaltycodes";
+    });
+{% endif %}
+{% if request.path|slice:":19" == '/cms/whiskey-family'%}
+    $('#modal-success-redirect').on('click', function() {
+      window.location="/cms/whiskey-family";
+    });
+{% endif %}
+{% if request.path|slice:":13" == '/cms/news/new' %}
+  $('#publishtime').on('apply.daterangepicker', function(ev, picker) {
+    startDate = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
+    endDate = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
+    $('#id_publish_duration_start').val(startDate);
+    $('#id_publish_duration_end').val(endDate);
+  });
+
+  $('#filter-duration').on('cancel.daterangepicker', function(ev, picker) {
+    $('#id_publish_duration_start').val('');
+    $('#id_publish_duration_end').val('');
+  });
+
+  $('#publishtime').on('change', function() {
+    var content = $(this).val();
+    if (content.length == 0) {
+      $('#id_publish_duration_start').val('');
+      $('#id_publish_duration_end').val('');
+    }
+  });
+{% endif %}
+{% if request.path|slice:":14" == '/cms/news/edit' %}
+
+  $('#publishtime').on('apply.daterangepicker', function(ev, picker) {
+    $('#id_publish_duration_start').val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+    $('#id_publish_duration_end').val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+  });
+
+  $('#publishtime').on('change', function() {
+    var content = $(this).val();
+    if (content.length == 0) {
+      $('#id_publish_duration_start').val('');
+      $('#id_publish_duration_end').val('');
+    }
+  });
+
+{% endif %}
+</script>
+  </body>
+</html>

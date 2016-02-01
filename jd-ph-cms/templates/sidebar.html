@@ -1,0 +1,57 @@
+
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+          <!-- Sidebar Menu -->
+          <ul class="sidebar-menu">
+            <li class="header">MENU</li>
+            <!-- Optionally, you can add icons to the links -->
+            <li class="{% if request.path in PATH_ACCOUNTS or request.path|slice:":19" == '/cms/accounts/edit/' %}active{% endif %}"><a href="/cms/accounts"><i class="fa fa-map-marker"></i> <span>Accounts</span></a></li>
+
+            <li class="{% if request.path|slice:":19" == '/cms/whiskey-family' %}active{% endif %}"><a href="/cms/whiskey-family/"><i class="fa fa-beer"></i> <span>Whiskey Family</span></a></li>
+
+            <li class="treeview {% if request.path in PATH_REWARDS or request.path|slice:":24" == '/cms/rewards/setup/edit/' or request.path|slice:":35" == '/cms/rewards/redeemeditems/iteminfo' %}active{% endif %}">
+              <a href="#">
+                <i class="fa fa-gift"></i> <span>Perks & Prizes</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu" style="display: {% if request.path in PATH_REWARDS or request.path|slice:":31" == '/cms/rewards/loyaltycodes/edit/' %}block;{% else %}hidden;{% endif %}">
+                <li class="{% if request.path in PATH_REWARDS_SETUP or request.path|slice:":23" == '/cms/rewards/setup/edit' %}active{% endif %}"><a href="/cms/rewards/setup">Setup</a></li>
+                <li class="{% if request.path in PATH_REWARDS_LOYALTY or request.path|slice:":30" == '/cms/rewards/loyaltycodes' or request.path|slice:":30" == '/cms/rewards/loyaltycodes/edit' %}active{% endif %}"><a href="/cms/rewards/loyaltycodes">Loyalty Codes</a></li>
+                {% if request.user.is_admin %}
+                <li class="{% if request.path|slice:":31" == '/cms/rewards/redeemeditems' or request.path|slice:":35" == '/cms/rewards/redeemeditems/iteminfo' %}active{% endif %}"><a href="/cms/rewards/redeemeditems">Redeemed Items</a></li>
+                {% endif %}
+              </ul>
+            </li>
+<!--             <li class="{% if request.path == '/contests'%}active{% endif %}"><a href="contests.php"><i class="fa fa-lightbulb-o"></i> <span>Contests</span></a></li> -->
+            {% if request.user.is_admin %}
+              <li class="treeview {% if request.path in PATH_CONTESTS or request.path|slice:":24" == '/cms/contests/setup/edit' %}active{% endif %}">
+                <a href="#">
+                  <i class="fa fa-lightbulb-o"></i> <span>Contests</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: {% if request.path in PATH_CONTESTS %}block;{% else %}hidden;{% endif %}">
+                  <li class="{% if request.path in PATH_CONTESTS_SETUP or request.path|slice:":24" == '/cms/contests/setup/edit'%}active{% endif %}"><a href="/cms/contests/setup">Setup</a></li>
+                  <li class="{% if request.path in PATH_CONTEST_LOGS %}active{% endif %}"><a href="/cms/contests/logs">Respondent Logs</a></li>
+                  <li class="{% if request.path in PATH_CONTEST_PLAYERS %}active{% endif %}"><a href="/cms/contests/players">Players</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="{% if request.path in PATH_CONTESTS %}active{% endif %}"><a href="/cms/contests/setup"><i class="fa fa-lightbulb-o"></i> <span>Contests</span></a></li>
+            {% endif %}
+
+            <li class="{% if request.path in PATH_NEWS or request.path|slice:":14" == '/cms/news/edit' %}active{% endif %}"><a href="/cms/news"><i class="fa fa-newspaper-o"></i> <span>News</span></a></li>
+
+            <li class="{% if request.path in PATH_USERS or request.path|slice:":10" == '/cms/users' %}active{% endif %}"><a href="/cms/users"><i class="fa fa-user"></i> <span>CMS Users</span></a></li>
+            {% if request.user.is_admin %}
+            <li class="{% if request.path in PATH_CONSUMER_PROFILES or request.path|slice:":30" == '/cms/consumer_profiles/details' %}active{% endif %}"><a href="/cms/consumer_profiles"><i class="fa fa-user-secret"></i> <span>Consumer Profiles</span></a></li>
+            {% endif %}
+            {% if request.user.is_admin %}
+              <li class="{% if request.path in PATH_POLICIES %}active{% endif %}"><a href="/cms/policies"><i class="fa fa-list-alt"></i> <span>Policies</span></a></li>
+            {% endif %}
+            <li class="{% if request.path in PATH_FEATURED %}active{% endif %}"><a href="/cms/featured"><i class="fa fa-star"></i> <span>Featured</span></a></li>
+          </ul><!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+      </aside>

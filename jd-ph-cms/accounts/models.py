@@ -1,7 +1,8 @@
 from decimal import Decimal
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from ..notifications.models import NotificationMessage
+from ..users.models import User
 
 class Answer(models.Model):
     question = models.ForeignKey('contests.contest', related_name='answer',
@@ -79,7 +80,7 @@ class AccountAddon(models.Model):
     avg_consumer_spending = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     menu_best_sellers = models.TextField(null=True, blank=True)
     promotions = models.TextField(null=True, blank=True)
-    author = models.ForeignKey('myuser.myuser', null=True, blank=True)
+    author = models.ForeignKey(User, null=True, blank=True)
     last_update_datetime = models.DateTimeField(null=True, blank=True)
     category = models.CharField(max_length=50, null=True, blank=True)
     is_type = models.CharField(default='Account', max_length=50)

@@ -1,0 +1,4 @@
+code;variant;volume;loyalty_point;premise;account;code_validity_start;code_validity_end;status
+TP00012;gentleman jack;1000m.;10;on-premise;Tipsy Pig;2016-01-01;2016-01-31;unclaimed
+GW00013;single barrel;2000ml;10;on-premise;Gweilos;2016-01-01;2016-01-31;unclaimed
+TR00014;jdtw|jdth;700ml;10;off-premise;The Republic;2016-01-01;2016-01-13;unclaimed

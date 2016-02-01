@@ -1,0 +1,160 @@
+{% extends "cms/base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-header">
+                  <h2 class="box-title">{% if request.path|slice:":14" == '/accounts/edit' %}
+                Edit Account
+              {% elif request.path|slice:":13" == '/accounts/new' %}
+                New Account
+              {% endif %}</h2>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+		          <div class="col-xs-12 no-padding">
+				  
+					<!-- form -->
+					<form action="#" method="POST" id="form_loc_new_acct"  enctype="multipart/form-data">
+						{% csrf_token %}
+					  <div class="col-md-6">
+					    <div class="form-group">
+						  <label for="{{ form.name.id_for_label }}">Name</label>
+						  {{ form.id|add_class:"hidden" }}
+	                      {{ form.name|add_class:"form-control"|attr:"disabled:"|attr:"id:account_name" }}
+	                      {{ form.name.errors}}
+						</div>
+					    <div class="form-group">
+						  <label for="{{ form_addon.schedule.id_for_label }}">Schedule(s)</label>
+	                      {{ form_addon.schedule|add_class:"form-control" }}
+	                      {{ form_addon.schedule.errors}}
+						</div>
+						<div class="form-group">
+						  <label for="{{ form_addon.avg_consumer_spending.id_for_label }}">Avg Meal Spending in PHP</label>
+	                      {{ form_addon.avg_consumer_spending|add_class:"form-control" }}
+	                      {{ form_addon.avg_consumer_spending.errors}}
+						</div>
+						<div class="form-group">
+						  <label for="{{ form_addon.menu_best_sellers.id_for_label }}">Best Sellers</label> 
+							{{ form_addon.menu_best_sellers|add_class:"textarea"|attr:"style:width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"}}
+							{{ form_addon.menu_best_sellers.errors}}
+
+						</div>
+                        <div class="col-md-6">
+    						<div class="form-group">
+    	                      {{ form_addon.is_featured|add_class:"form-control" }}
+    						  <label for="{{ form_addon.is_featured.id_for_label }}">Set as featured</label>
+    	                      {{ form_addon.is_featured.errors}}
+    						</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <input class="form-control" id="make_notif" name="make_notif" type="checkbox" {% if notif.has_notif == True %}checked="checked"{% endif %}>
+                              <label for="{{ form_addon.make_notif.id_for_label }}"> Set as New (Create Notif)</label>
+                            </div>
+                        </div>
+					  </div>
+					  <div class="col-md-6">
+					    <div class="form-group">
+						  <label for="account_address">Address</label>
+						  <input type="text" class="form-control" name="account_address" id="account_address" value="" placeholder="Address..." disabled="">
+						  {{ form.billingstreet|add_class:"hidden"|attr:"id:account_billingstreet"}}
+						  {{ form.billingcity|add_class:"hidden"|attr:"id:account_billingcity"}}
+						  {{ form.billingstate|add_class:"hidden"|attr:"id:account_billingstate"}}
+						  {{ form.billingcountry|add_class:"hidden"|attr:"id:account_billingcountry"}}
+						</div>
+					    <div class="form-group">
+						  <label>Map</label>
+						  <div id="map" style="height: 100px;"></div>
+						</div>
+                        <div class="form-group">
+                          <label>Promotions</label>
+                          {{ form_addon.promotions|add_class:"form-control" }}
+                          {{ form_addon.promotions.errors }}
+                        </div>
+						<div class="form-group">
+						  <!-- <label for="{{ form.map_long.id_for_label }}">Long:</label> -->
+	                      {{ form.geolocation_longitude_s|add_class:"form-control hidden" }}
+	                      {{ form.geolocation_longitude_s.errors }}
+						</div>
+						<div class="form-group">
+						  <!-- <label for="{{ form.map_lat.id_for_label }}">Lat:</label> -->
+	                      {{ form.geolocation_latitude_s|add_class:"form-control hidden" }}
+	                      {{ form.geolocation_latitude_s.errors }}
+						</div>
+					  </div>
+					  <div class="col-md-12">
+  					  	<div class="box box-default {% if prod_offer_box != 'open' %}collapsed-box{% endif %}">
+  					  		<div class="box-header with-border">
+  					  			<h3 class="box-title">Add Product Offerings</h3>
+  					  			<div class="box-tools pull-right">
+  					  				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+  					  				<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+  					  			</div>
+  					  		</div>
+  					  		<div class="box-body">
+  					  			<div class="form-group">
+  					  				<label for="{{ form_products_input.name.id_for_label }}">Name</label>
+  					  				{{ form_products_input.name|add_class:"form-control" }}
+  	                      			{{ form_products_input.name.errors}}
+  	                      			{{ form_products_input.account|add_class:"hidden" }}
+  	                      			{{ form_products_input.account.errors}}
+  					  			</div>
+  					  			<div class="form-group">
+  					  				<label for="{{ form_products_input.volume.id_for_label }}">Volume</label>
+  					  				{{ form_products_input.volume|add_class:"form-control" }}
+  	                      			{{ form_products_input.volume.errors}}
+  					  			</div>
+  					  			<div class="form-group">
+  					  				<label for="{{ form_products_input.price.id_for_label }}">Price</label>
+  					  				{{ form_products_input.price|add_class:"form-control" }}
+  	                      			{{ form_products_input.price.errors}}
+  					  			</div>
+  					  			<div class="form-group">
+  					  				<label for="{{ form_products_input.photo.id_for_label }}">Photo</label>
+  					  				{{ form_products_input.photo|add_class:"form-control"|attr:"accept:.jpg,.bmp,.png,.jpeg,.gif" }}
+  	                      			{{ form_products_input.photo.errors}}
+  					  			</div>
+                                <div class="form-group">
+                                    {{ form_products_input.is_featured|add_class:"form-control" }}
+                                    <label for="{{ form_products_input.is_featured.id_for_label }}">Set as featured</label>
+                                </div>
+  					  		</div>
+  					  		<div class="box-footer">
+  					  			<button class="btn btn-primary btn-lg text-center center-block" type="submit" id="btn_add_product" name="btn_add_product"><i class="fa fa-save"></i> Add Product</button>
+  					  		</div>
+  					  	</div>
+					  </div>
+					  <div class="col-md-12">
+					    <h5><strong>Product Offerings</strong></h5>
+						{% for product in form_products %}
+						<div class="form-group prod-offers {{ product.id }} col-md-4 col-sm-6 col-xs-12">
+						  <div class="col-xs-12 col-md-4 text-center"><div style="background-image: url({{ product.photo.url|default:'' }});" class="thumb-prod img-thumbnail"></div></div>
+						  <div class="col-xs-12 col-md-8 text-center">
+<!-- 	  					    <label for="{{ product.product_name.id_for_label }}">Name</label> -->
+                        	<div class="prod-name">{% if product.is_featured %}<i class="fa fa-fw fa-star"></i>{% endif %}{{ product.name }}</div>
+                        	<div class="prod-info">{{ product.volume }}</div>
+                        	<div class="prod-info">{{ product.price }}</div>
+<!--                         	<button class="btn btn-block btn-danger">Delete</button> -->
+                        	<a class="btn btn-sm btn-danger" id="btn_del" data-target="#modal_del" data-toggle="modal" data-acct-id="{{ product.pk }}" data-acct-name="{{ product.product_name }}"><i class="fa fa-trash-o"></i> Delete</a> 
+						  </div>
+						</div>
+						{% endfor %}
+
+					  </div>
+
+					  <div class="col-md-12">
+					    <div class="form-group">
+						  <button class="btn btn-primary btn-lg text-center center-block" type="submit" id="btn_save_account_info" name="btn_save_account_info"><i class="fa fa-save"></i> SAVE</button>
+						</div>
+					  </div>
+					  
+					</form>
+					
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+{% endblock content %}
