@@ -38,14 +38,16 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 INSTALLED_APPS += ("djangosecure", )
 # raven sentry client
 # See https://docs.getsentry.com/hosted/clients/python/integrations/django/
-INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
+# INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
 SECURITY_MIDDLEWARE = (
     'djangosecure.middleware.SecurityMiddleware',
 )
-RAVEN_MIDDLEWARE = ('raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-                    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',)
+# RAVEN_MIDDLEWARE = ('raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+#                     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',)
+# MIDDLEWARE_CLASSES = SECURITY_MIDDLEWARE + \
+#     RAVEN_MIDDLEWARE + MIDDLEWARE_CLASSES
 MIDDLEWARE_CLASSES = SECURITY_MIDDLEWARE + \
-    RAVEN_MIDDLEWARE + MIDDLEWARE_CLASSES
+    MIDDLEWARE_CLASSES
 
 # # opbeat integration
 # # See https://opbeat.com/languages/django/
@@ -74,7 +76,7 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['jd-ph.herokuapp.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['jd-ph-cms-refactor.herokuapp.com'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ("gunicorn", )
@@ -84,10 +86,10 @@ INSTALLED_APPS += ("gunicorn", )
 # Uploaded Media Files
 # ------------------------
 # See: http://django-storages.readthedocs.org/en/latest/index.html
-INSTALLED_APPS += (
-    'storages',
-)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+# INSTALLED_APPS += (
+#     'storages',
+# )
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # AWS_ACCESS_KEY_ID = env('DJANGO_AWS_ACCESS_KEY_ID')
 # AWS_SECRET_ACCESS_KEY = env('DJANGO_AWS_SECRET_ACCESS_KEY')
@@ -121,8 +123,8 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
                          default='cms <noreply@jd-ph.herokuapp.com>')
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = env('MAILGUN_API_KEY') # env('DJANGO_MAILGUN_API_KEY')
-MAILGUN_SERVER_NAME = env('MAILGUN_SMTP_SERVER') # env('DJANGO_MAILGUN_SERVER_NAME')
+MAILGUN_ACCESS_KEY = env('MAILGUN_API_KEY')  # env('DJANGO_MAILGUN_API_KEY')
+MAILGUN_SERVER_NAME = env('MAILGUN_SMTP_SERVER')  # env('DJANGO_MAILGUN_SERVER_NAME')
 EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[cms] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
