@@ -121,7 +121,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # EMAIL
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='cms <noreply@jd-ph.herokuapp.com>')
+                         default='cms <noreply@jd-ph-cms-refactor.herokuapp.com>')
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
 MAILGUN_ACCESS_KEY = env('MAILGUN_API_KEY')  # env('DJANGO_MAILGUN_API_KEY')
 MAILGUN_SERVER_NAME = env('MAILGUN_DOMAIN')  # env('DJANGO_MAILGUN_SERVER_NAME')
