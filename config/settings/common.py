@@ -45,7 +45,9 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'jd-ph-cms.users',  # custom users app
     # Your stuff: custom apps go here
+    'cursor_override',
     'cloudinary',
+    'widget_tweaks',
     'jd-ph-cms.myuser',
     'jd-ph-cms.contests',
     'jd-ph-cms.accounts',
@@ -54,6 +56,8 @@ LOCAL_APPS = (
     'jd-ph-cms.rewards',
     'jd-ph-cms.productofferings',
 )
+
+CURSOR_OVERRIDE = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

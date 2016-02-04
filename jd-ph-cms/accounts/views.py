@@ -6,8 +6,11 @@ from django.utils import timezone
 
 from .models import Account
 from .models import AccountAddon
+from ..productofferings.models import ProductOffering
 
+from .forms import Accounts_Form
 from .forms import AccountsAddons_Form
+from ..productofferings.forms import Product_Offerings_Form
 
 from ..utils import send_notifications
 
@@ -17,6 +20,10 @@ def index(request):
     accounts_obj = Account.objects.filter(Q(accountaddons__isnull=True)|Q(accountaddons__isnull=False)).order_by('name')
     print('Queryset: ', accounts_obj.query)
     return render(request, 'accounts/index.html', {'accounts': accounts_obj})
+
+
+def something(request):
+    return HttpResponse('this is something, hmmm...')
 
 
 @login_required
@@ -102,7 +109,7 @@ def edit(request, pk):
     form_account = Accounts_Form(instance=account_obj)
     products = ProductOffering.objects.filter(account=account_obj)
 
-    return render(request , 'cms/accounts/accounts_new.html',
+    return render(request , 'accounts/new.html',
         {'form': form_account, 'form_addon': form_account_addon, 'notif': account_addon_obj,
         'form_products_input': form_prod_offers, 'form_products': products,
         'prod_offer_box': box_status,

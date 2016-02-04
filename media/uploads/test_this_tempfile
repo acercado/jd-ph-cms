@@ -1,0 +1,5 @@
+delete from web_users where id in  (48,49);
+delete from web_transactions where web_user_id in (48,49);
+delete from cms_contest_winner where web_user_id in (48);
+delete from cms_notification_messages where user_id in (48,49);
+delete from cms_notifications where user_id in (48,49);

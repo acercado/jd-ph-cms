@@ -37,7 +37,7 @@
 						<td> {{ account.billingstreet }} {{ account.billingcity }} {{ account.billingstate }} {{ account.billingcountry }}</td>
 						<td>{{ account.accountaddons.schedule }}</td>
 						<td class="text-center">
-						  <a href="{% url "edit" pk=account.id %}" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+						  <a href="{% url 'accounts:edit' pk=account.id %}" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
 						  <!-- <a class="btn btn-sm btn-danger" id="btn_del" data-target="#modal_del" data-toggle="modal" data-acct-id="{{ account.pk }}" data-acct-name="{{ account.name }}"><i class="fa fa-trash-o"></i> Delete</a> -->
 						</td>
 					  </tr>

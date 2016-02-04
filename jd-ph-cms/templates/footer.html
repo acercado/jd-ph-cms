@@ -69,7 +69,7 @@
 	  </div><!-- /.modal -->
 
 	<!-- Success modal -->
-	<div class="modal fade" id="modal-success" tabindex="-1" role="dialog" aria-labelledby="modalSuccess">
+	<div class="modal fade" id="modal-success" tabindex="-1" role="dialog" aria-labelledby="modalSuccess" data-backdrop="static" data-keyboard="false">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 		  <form>
@@ -153,7 +153,6 @@
 
     <!-- jQuery 2.1.4 -->
     <script src="{% static "plugins/jQuery/jQuery-2.1.4.min.js" %}"></script>
-    {# if request.path|slice:":29" == '/cms/rewards/loyaltycodes/new' #}<!-- jQuery UI - v1.11.4 - 2015-12-06 -->
     <script src="{% static "plugins/jqueryui/jquery-ui.min.js" %}"></script>{# endif #}
     <script type="text/javascript" src="{% static "JSZip-2.5.0/jszip.min.js" %}"></script>
     <script type="text/javascript" src="{% static "pdfmake-0.1.18/build/pdfmake.min.js" %}"></script>
@@ -185,73 +184,31 @@
     <script src="{% static "plugins/timepicker/bootstrap-timepicker.min.js" %}"></script>
     <!-- App -->
     <script src="{% static "js/app.js" %}"></script>
-    
-    {% if request.path|slice:":13" == '/cms/policies' %}<!-- Select2 -->
-    <script src="{% static 'plugins/select2/select2.full.min.js' %}"></script>{% endif %}
-
-    {% load cloudinary %}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
 
     <!-- Custom scripts -->
     <script src="{% static "js/scripts.js" %}"></script>
+    <script src="{% static "js/csrf.js" %}"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
 
-    {% if request.path|slice:":14" == '/cms/news/edit' %}
-    <script src="{% static "js/date.js" %}"></script>
-    {% endif %}
-
     {# if request.path|slice:":9" == '/location'#}
 		<script type="text/javascript">
       		$(function () {
-      			// some preparation for crf token used by forms
-      			function getCookie(name) {
-      			    var cookieValue = null;
-      			    if (document.cookie && document.cookie != '') {
-      			        var cookies = document.cookie.split(';');
-      			        for (var i = 0; i < cookies.length; i++) {
-      			            var cookie = jQuery.trim(cookies[i]);
-      			            // Does this cookie string begin with the name we want?
-      			            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-      			                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-      			                break;
-      			            }
-      			        }
-      			    }
-      			    return cookieValue;
-      			}
-      			var csrftoken = getCookie('csrftoken');
-      			function csrfSafeMethod(method) {
-      			    // these HTTP methods do not require CSRF protection
-      			    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-      			}
-      			$.ajaxSetup({
-      			    beforeSend: function(xhr, settings) {
-      			        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-      			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      			        }
-      			    }
-      			});
-      			var table1 = $('#DataTables_Table_0').DataTable();
-      			var rowToDelete;
-      			$('#DataTables_Table_0 tbody').on( 'click', 'a#btn_del', function () {
-      			    rowToDelete = table1.row( $(this).parents('tr') );
-      			    var rowNode = rowToDelete.node();
-      			    console.log(rowNode);
-      			    // row.remove();
-
-      			    // table2
-      			    //     .row.add( rowNode )
-      			    //     .draw();
-      			} );
 
             var is_type;
             var acct_name;
             var acct_id;
+            var table1 = $('#DataTables_Table_0').DataTable();
+            var rowToDelete;
+            $('#DataTables_Table_0 tbody').on( 'click', 'a#btn_del', function () {
+                rowToDelete = table1.row( $(this).parents('tr') );
+                var rowNode = rowToDelete.node();
+                console.log(rowNode);
+            } );
+
             $('.data-tables').on('click','a#btn_del', function() {
               acct_name = $(this).data('acct-name');
               acct_id = $(this).data('acct-id');
@@ -924,41 +881,28 @@
 {% if request.path|slice:":25" == '/cms/rewards/loyaltycodes' %}
     $('#id_code').inputmask("aa99999");
 {% endif %}
-{% if request.path|slice:":13" == '/cms/news/new' or request.path|slice:":14" == '/cms/news/edit'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/news";
-    });
-{% endif %}
-{% if request.path|slice:":18" == '/cms/accounts/edit'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/accounts/";
-    });
-{% endif %}
-{% if request.path|slice:":19" == '/cms/contests/setup'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/contests/setup";
-    });
-{% endif %}
-{% if request.path|slice:":10" == '/cms/users'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/users";
-    });
-{% endif %}
-{% if request.path|slice:":18" == '/cms/rewards/setup'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/rewards/setup";
-    });
-{% endif %}
-{% if request.path|slice:":25" == '/cms/rewards/loyaltycodes'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/rewards/loyaltycodes";
-    });
-{% endif %}
-{% if request.path|slice:":19" == '/cms/whiskey-family'%}
-    $('#modal-success-redirect').on('click', function() {
-      window.location="/cms/whiskey-family";
-    });
-{% endif %}
+
+$('#modal-success').on('hidden.bs.modal', function(e) {
+  {% if mode == 'saved' or mode == 'edited' %}
+    {% if request.path|slice:":9" == '/cms/news'%}
+      console.log('triggered from news...');
+          window.location="/cms/news";
+    {% elif request.path|slice:":18" == '/cms/accounts/edit'%}
+          window.location="/cms/accounts/";
+    {% elif request.path|slice:":19" == '/cms/contests/setup'%}
+          window.location="/cms/contests/setup";
+    {% elif request.path|slice:":10" == '/cms/users'%}
+          window.location="/cms/users";
+    {% elif request.path|slice:":18" == '/cms/rewards/setup'%}
+          window.location="/cms/rewards/setup";
+    {% elif request.path|slice:":25" == '/cms/rewards/loyaltycodes'%}
+          window.location="/cms/rewards/loyaltycodes";
+    {% elif request.path|slice:":19" == '/cms/whiskey-family'%}
+          window.location="/cms/whiskey-family";
+    {% endif %}
+  {% endif %}
+});
+
 {% if request.path|slice:":13" == '/cms/news/new' %}
   $('#publishtime').on('apply.daterangepicker', function(ev, picker) {
     startDate = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
