@@ -249,6 +249,12 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 POLICY_ADMIN_EMAIL = "heroku@risingtide.ph"
+POLICY_MAX_ANSWERS_PER_QUESTION = 1
+NOTIF_MESSAGE_NEW_ACCOUNT = "Come visit [acct_name] at [acct_addr].  A newly opened store catering a vast catalog of Jack Daniel's rare classics."
+NOTIF_MESSAGE_NEW_LOYALTY_ITEM = "Exclusive for the month of December, get this [reward_item]. [reward_info]..."
+NOTIF_MESSAGE_NEW_CONTEST = "Contest of the month - [contest_name].  Join us and earn/win limited edition exclusive Jack Daniel's items."
+NOTIF_MESSAGE_WINNER = "Hi [user_name]! You've just won [reward_item]! Wait for a call from our JD Sales Rep for further information to claim your prize. Thank you very much for participating! Be on the lookout for more contest/prizes announcements."
+POLICY_DEFAULT_COUNTRY = "Philippines"
 POLICY_COUNTRY = (
         ('indonesia', 'Indonesia'),
         ('malaysia', 'Malaysia'),
