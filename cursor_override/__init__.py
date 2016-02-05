@@ -1,8 +1,8 @@
 """
-Django DB Readonly
+Django tables on other schema quick fix
 ~~~~~~~~~~~~~~~~~~
 """
-VERSION = (0, 4)
+VERSION = (0, 5)
 __version__ = VERSION
 
 from time import time
@@ -13,25 +13,9 @@ if django.VERSION < (1, 7):
     from django.db.backends import util
 else:
     from django.db.backends import utils as util
-# from django.utils.log import getLogger
-
-from cursor_override.exceptions import DatabaseWriteDenied
-
-
-# logger = getLogger('django.db.backends')
-
 
 def _override_cursor():
     return getattr(settings, 'CURSOR_OVERRIDE', False)
-
-
-# def _get_readonly_dbs():
-#     read_on_db_names = []
-#     for db_key in getattr(settings, 'DB_READ_ONLY_DATABASES', tuple()):
-#         db = settings.DATABASES.get(db_key)
-#         if db:
-#             read_on_db_names.append(db['NAME'])
-#     return read_on_db_names
 
 
 class ReadOnlyCursorWrapper(object):
@@ -50,14 +34,6 @@ class ReadOnlyCursorWrapper(object):
 
     Raises a DatabaseWriteDenied exception if writes are disabled.
     """
-
-    SQL_WRITE_BLACKLIST = (
-        # Data Definition
-        'CREATE', 'ALTER', 'RENAME', 'DROP', 'TRUNCATE',
-        # Data Manipulation
-        'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM',
-    )
-    _last_executed = ''
 
     def __init__(self, cursor, db):
         self.cursor = cursor
@@ -94,14 +70,6 @@ class ReadOnlyCursorWrapper(object):
 
     def __iter__(self):
         return iter(self.cursor)
-
-    # def _write_sql(self, sql):
-    #     return sql.startswith(self.SQL_WRITE_BLACKLIST)
-
-    # def _write_to_readonly_db(self):
-    #     return (
-    #         not self.readonly_dbs
-    #         or self.db.settings_dict['NAME'] in self.readonly_dbs)
 
 
 class CursorWrapper(util.CursorWrapper):
